@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   },
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "a safe sandbox to play with npm publish",
   "main": "dist/main.js",
   "repository": {
