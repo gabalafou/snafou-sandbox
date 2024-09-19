@@ -11,5 +11,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
-   }
+  },
+  "version": "0.0.1",
+  "description": "a safe sandbox to play with npm publish",
+  "main": "dist/main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabalafou/snafou-sandbox.git"
+  },
+  "keywords": [
+    "sandbox"
+  ],
+  "author": "gabalafou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabalafou/snafou-sandbox/issues"
+  },
+  "homepage": "https://github.com/gabalafou/snafou-sandbox#readme"
 }
