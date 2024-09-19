@@ -1,0 +1,79 @@
+name: "Build and maybe release snafou-sandbox"
+
+on:
+  release:
+    types: [published]
+  push:
+    branches: [main]
+    tags: ["*"]
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  FORCE_COLOR: "1"
+  PACKAGE_FILE: "snafou-sandbox.tgz"
+
+jobs:
+  build-and-maybe-release:
+    name: "Release snafou-sandbox to npmjs 📦"
+    runs-on: ubuntu-latest
+    needs: build-application
+    # needed for attestations
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+
+    steps:
+      - name: "Checkout repository 🛎"
+        uses: actions/checkout@v4
+
+      - name: "Enable corepack (set Yarn to the correct version)"
+        run: corepack enable
+
+      - name: "Set up Node.js 🧶"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: "Install dependencies 📦"
+        run: yarn install
+
+      - name: "Build application 🏗"
+        run: yarn run build
+
+      - name: "Generate package tarball 📦"
+        run: yarn pack --filename ${{ env.PACKAGE_FILE }}
+
+      #  we always do a dry run for the publish
+      - name: "Check publish (dry run) 📤"
+        run: |
+          echo "Publishing dry run..."
+          npm publish --dry-run --verbose --access public ${{ env.PACKAGE_FILE }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: "Is this a release event?"
+        if: github.event_name == 'release'
+        run: echo "This is a release event, so now run additional steps to publish the package to NPM"
+
+      # Create an attestation with GitHub so others can verify that this particular
+      # package tarball file was created with this particular GitHub workflow in
+      # in this particular repository.
+      #
+      # More info: https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds
+      - name: "Attest Build Provenance ✨"
+        uses: actions/attest-build-provenance@v1
+        if:  github.event_name == 'release' && github.repository_owner == 'gabalafou' && startsWith(github.ref, 'refs/tags/')
+        with:
+          subject-path: ${{ env.PACKAGE_FILE }}
+
+      - name: "Publish to npm 📤"
+        if: github.event_name == 'release' && github.repository_owner == 'gabalafou' && startsWith(github.ref, 'refs/tags/')
+        run: |
+          npm publish --access public --verbose ${{ env.PACKAGE_FILE }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
