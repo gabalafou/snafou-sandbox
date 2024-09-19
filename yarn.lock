@@ -64,6 +64,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@snafou/snafou-sandbox@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@snafou/snafou-sandbox@workspace:."
+  dependencies:
+    lodash: "npm:^4.17.21"
+    webpack: "npm:^5.94.0"
+    webpack-cli: "npm:^5.1.4"
+  languageName: unknown
+  linkType: soft
+
 "@types/estree@npm:^1.0.5":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
@@ -882,16 +892,6 @@ __metadata:
   checksum: 10c0/1dbed0726dd0e1152a92696c76c7f06084eb32a90f0528d11acd764043aacf76994b2fb30aa1291a21bd019d6699164d048286309a278855ee7bec06cf6fb690
   languageName: node
   linkType: hard
-
-"snafou-sandbox@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "snafou-sandbox@workspace:."
-  dependencies:
-    lodash: "npm:^4.17.21"
-    webpack: "npm:^5.94.0"
-    webpack-cli: "npm:^5.1.4"
-  languageName: unknown
-  linkType: soft
 
 "source-map-support@npm:~0.5.20":
   version: 0.5.21
