@@ -19,7 +19,6 @@ jobs:
   build-and-maybe-release:
     name: "Release snafou-sandbox to npmjs 📦"
     runs-on: ubuntu-latest
-    needs: build-application
     # needed for attestations
     permissions:
       id-token: write
