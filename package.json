@@ -1,5 +1,5 @@
 {
-  "name": "snafou-sandbox",
+  "name": "@snafou/snafou-sandbox",
   "packageManager": "yarn@4.5.0",
   "devDependencies": {
     "webpack": "^5.94.0",
